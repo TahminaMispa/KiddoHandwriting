@@ -1,7 +1,6 @@
+from keras.models import load_model
 from tkinter import *
-
 import numpy as np 
-import pandas as pd 
 import matplotlib.pyplot as plt
 import cv2
 import tensorflow as tf
@@ -25,78 +24,13 @@ import time
 import numpy as np
 from autokiddobot import AutoKiddobot
 
-# Load data from directory
-data = []
-labels = []
-classes = 21
-cur_path = os.getcwd()
 
 
-for i in range(classes):
-    path = os.path.join(cur_path,'Sharborna_BanglaDisit',str(i))
-    images = os.listdir(path)
-    for a in images:
-        try:
-            image = Image.open(path + '\\'+ a)
-            image = image.resize((28,28))
-            image = np.array(image)
-            #sim = Image.fromarray(image)
-            data.append(image)
-            labels.append(i)
-        except:
-            print("Error loading image")
-#Converting lists into numpy arrays
-data = np.array(data)
-labels = np.array(labels)
-# print(data.shape, labels.shape)
-#Splitting training and testing dataset
-X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.2)
-
-
-
-# Reshaping the array to 4-dims so that it can work with the Keras API
-X_train = X_train.reshape(X_train.shape[0], 28, 28, 1)
-X_test = X_test.reshape(X_test.shape[0], 28, 28, 1)
-input_shape = (28, 28, 1)
-# Making sure that the values are float so that we can get decimal points after division
-X_train = X_train.astype('float32')
-X_test = X_test.astype('float32')
-# Normalizing the RGB codes by dividing it to the max RGB value.
-X_train /= 255
-X_test /= 255
-
-#Converting the labels into one hot encoding
-y_train = to_categorical(y_train, 21)
-y_test = to_categorical(y_test, 21)
-
-
-#Building the model
-model = Sequential()
-model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu', input_shape=input_shape))
-model.add(Conv2D(filters=32, kernel_size=(5,5), activation='relu'))
-model.add(MaxPool2D(pool_size=(2, 2)))
-model.add(Dropout(rate=0.25))
-model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
-model.add(Conv2D(filters=64, kernel_size=(3, 3), activation='relu'))
-model.add(MaxPool2D(pool_size=(2, 2)))
-model.add(Dropout(rate=0.25))
-model.add(Flatten())
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(rate=0.5))
-model.add(Dense(21, activation='softmax'))
-
-
+model=load_model('SaveModelData\\vowel_bangDigit.h5')
+model.summary()
 y_pred='noname'
 mask=0
 
-# Train Data
-def train():
-	#Compilation of the model
-	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-	epochs = 3
-	history = model.fit(X_train, y_train, batch_size=32, epochs=epochs, validation_data=(X_test, y_test))
-
-# Camera run
 def cameraon():
     global mask
     cap = cv2.VideoCapture(1)
@@ -111,7 +45,8 @@ def cameraon():
          
     cap.release()
     cv2.destroyAllWindows()
-thread.start_new_thread(cameraon, ())    
+thread.start_new_thread(cameraon, ())     
+  
 
 # Capture an image from whiteboard and predict
 def predict():
@@ -272,7 +207,7 @@ def run(*args):
 
 
 websocket.enableTrace(True)
-ws = websocket.WebSocketApp("ws://192.168.43.11:8000",  on_message = on_message,  on_error = on_error, on_close = on_close)
+ws = websocket.WebSocketApp("ws://192.168.43.208:8000",  on_message = on_message,  on_error = on_error, on_close = on_close)
 ws.on_open = on_open
 
 thread.start_new_thread(run, ())
@@ -350,10 +285,8 @@ def interact():
 
 if __name__ == '__main__':
 	root=Tk()
-	button1=Button(root,text='trainImage',command=train).place(x=10,y=50)
-	button2=Button(root,text='Capture',command=predict).place(x=100,y=50)
-	button3=Button(root,text='Interaction',command=interact).place(x=10,y=110)
-	# button3=Button(root,text='Write',command=write).place(x=100,y=110)
+	button1=Button(root,text='Capture',command=predict).place(x=15,y=50)
+	button2=Button(root,text='Interaction',command=interact).place(x=100,y=50)
  
 	root.mainloop()
 
