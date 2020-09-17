@@ -9,7 +9,7 @@ In this system, children can learn Bengali Vowel, Consonant, Alphabet, Digits, a
 4. Shorborna_BanglaDigit.py file learning Bengali consonant and Bengali digits
 5. unknownShape.py file is for learning an unknown shape like flower, home etc
 
-## other vrep file for the simulation of kiddo's drawing
+### other vrep file for the simulation of kiddo's drawing
 
 
 
