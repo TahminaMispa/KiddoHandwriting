@@ -1,6 +1,6 @@
 ### This file contains 100 known shapes
 
-1. 'Segmented_known_shape_coordinate' file contains segmented coordinate for each 100 shape. For example there is two part for writing 'A', so the coordinates has two distinct path 
+1. 'Segmented_known_shape_coordinate' file contains segmented coordinate for each 100 shape. For example there are two part for writing 'A'. For that, the coordinates has two distinct path 
 
 2. 'known_shape_ploting_image' file contains those 100 pyplot image
 
