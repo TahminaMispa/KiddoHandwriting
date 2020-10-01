@@ -8,8 +8,7 @@ In this system, children can learn Bengali Vowel, Consonant, Alphabet, Digits, a
 3. Geometry_EnglishDigit.py file is for learning english digits and four geometric shapes (Circle, Triangle, Rectangle and line) together
 4. Shorborna_BanglaDigit.py file learning Bengali consonant and Bengali digits
 5. unknownShape.py file is for learning an unknown shape like flower, home etc
-
-### other vrep file for the simulation of kiddo's drawing
+6. other vrep file for the simulation of kiddo's drawing
 
 
 
